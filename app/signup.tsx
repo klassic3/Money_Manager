@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { colors } from '@/constants/theme';
 import { Link, Redirect, useRouter } from 'expo-router';
 
-import { registerUser } from '../services/userServices'; // Adjust the import according to your project structure
+import { loginUser, registerUser } from '../services/userServices'; // Adjust the import according to your project structure
 import { useToast } from 'react-native-toast-notifications';
 
 const signup = () => {
@@ -45,8 +45,13 @@ const signup = () => {
             password: password,
         }
 
+        const user2 = {
+            email: email,
+            password: password,
+        }
         try {
             const res = await registerUser(user)
+            const res2 = await loginUser(user2)
             toast.show('Sign up successful!', {
                 type: 'success',
                 placement: 'top',
