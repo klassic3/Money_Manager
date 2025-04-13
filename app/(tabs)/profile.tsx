@@ -1,9 +1,12 @@
 import { StyleSheet, Text, Image, ScrollView, View, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { colors } from '@/constants/theme'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { useRouter } from 'expo-router'
 
 const profile = () => {
 
+    const router = useRouter()
 
     return (
         <ScrollView contentContainerStyle={{ flexGrow: 1, padding: 20, backgroundColor: colors.background }}>
@@ -20,7 +23,7 @@ const profile = () => {
             </View>
 
             <View style={styles.section}>
-            <TouchableOpacity style={styles.item}>
+                <TouchableOpacity style={styles.item}>
                     <Text style={styles.itemText}>Edit Profile</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.item}>
@@ -29,7 +32,10 @@ const profile = () => {
                 <TouchableOpacity style={styles.item}>
                     <Text style={styles.itemText}>Privacy Policy</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.item}>
+                <TouchableOpacity style={styles.item} onPress={() => {
+                    AsyncStorage.removeItem('authToken')
+                    router.replace('/login')
+                }}>
                     <Text style={styles.itemText}>Log Out</Text>
                 </TouchableOpacity>
             </View>

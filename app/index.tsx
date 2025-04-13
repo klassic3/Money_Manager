@@ -1,16 +1,25 @@
 import { StyleSheet, Text, View, Image } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'expo-router'
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const index = () => {
 
-
     const router = useRouter();
     useEffect(() => {
-        setTimeout(() => {
-            router.replace('/login')
-        }, 2000)
+        const checkAuth = async () => {
+            const token = await AsyncStorage.getItem('authToken')
+            setTimeout(() => {
+                if (token) {
+                    router.replace('/(tabs)/home') // go to your main app
+                } else {
+                    router.replace('/login')
+                }
+            }, 2000)
+        }
+
+        checkAuth()
+
     }, [])
     return (
         <View style={styles.container}>
