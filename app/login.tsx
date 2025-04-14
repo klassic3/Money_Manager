@@ -33,7 +33,7 @@ const login = () => {
 
         try {
             const res = await loginUser(user)
-            toast.show('Login successful!', {
+            toast.show(`Welcome ${res.user.name}`, {
                 type: 'success',
                 placement: 'top',
                 duration: 2000,

@@ -1,12 +1,37 @@
 import { StyleSheet, Text, Image, ScrollView, View, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { colors } from '@/constants/theme'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useRouter } from 'expo-router'
+import { getUser } from '@/services/userServices'
 
 const profile = () => {
 
     const router = useRouter()
+    const [userData, setUserData] = useState({
+        name: '',
+        email: '',
+    });
+
+    useEffect(() => {
+        const getProfile = async () => {
+            try {
+                const res = await getUser()
+                if (res) {
+                    console.log(res)
+                }
+                setUserData({
+                    name: res.name,
+                    email: res.email,
+                })
+            }
+            catch (error) {
+                const err = error as Error;
+                console.log(err.message)
+            }
+        }
+        getProfile()
+    }, [])
 
     return (
         <ScrollView contentContainerStyle={{ flexGrow: 1, padding: 20, backgroundColor: colors.background }}>
@@ -18,8 +43,8 @@ const profile = () => {
                     source={require('../../assets/images/Profile.png')}
                     style={styles.logo}
                 />
-                <Text style={{ fontSize: 18, fontWeight: 'bold', marginTop: 10, color: '#000' }}>Name</Text>
-                <Text style={{ fontSize: 16, color: '#666' }}>John Doe</Text>
+                <Text style={{ fontSize: 18, fontWeight: 'bold', marginTop: 10, color: '#000' }}>{userData.name}</Text>
+                <Text style={{ fontSize: 16, color: '#666' }}>{userData.email}</Text>
             </View>
 
             <View style={styles.section}>

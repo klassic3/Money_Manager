@@ -52,7 +52,7 @@ const signup = () => {
         try {
             const res = await registerUser(user)
             const res2 = await loginUser(user2)
-            toast.show('Sign up successful!', {
+            toast.show(`Welcome ${res2.user.name}`, {
                 type: 'success',
                 placement: 'top',
                 duration: 2000,
