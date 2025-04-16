@@ -5,7 +5,6 @@ import { colors } from '@/constants/theme';
 
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import Entypo from '@expo/vector-icons/Entypo';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 export default function TabLayout() {
@@ -41,14 +40,6 @@ export default function TabLayout() {
                 options={{
                     tabBarIcon: ({ size, color }) => (
                         <Ionicons name="stats-chart-sharp" size={size} color={color} />
-                    ),
-                }}
-            />
-            <Tabs.Screen
-                name='wallet'
-                options={{
-                    tabBarIcon: ({ size, color }) => (
-                        <Entypo name="wallet" size={size} color={color} />
                     ),
                 }}
             />
