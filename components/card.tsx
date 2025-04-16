@@ -1,21 +1,26 @@
 import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 
-const Card = () => {
+type cardProp = {
+    balance: number;
+    income: number;
+    expense: number;
+};
+const Card = ({balance, income, expense}:cardProp ) => {
     return (
         <View style={styles.card}>
             <Text style={styles.balanceText}>Current Balance</Text>
-            <Text style={styles.balanceAmount}>$1000</Text>
+            <Text style={styles.balanceAmount}>{balance}</Text>
 
             <View style={styles.cashFlow}>
                 <View >
                     <Text style={styles.incomeText}>Income</Text>
-                    <Text style={styles.incomeAmount}>+$5000</Text>
+                    <Text style={styles.incomeAmount}>+{income}</Text>
                 </View>
 
                 <View style={[styles.alignEnd]}>
                     <Text style={styles.expenseText}>Expenses</Text>
-                    <Text style={styles.expenseAmount}>-$4000</Text>
+                    <Text style={styles.expenseAmount}>-{expense}</Text>
                 </View>
             </View>
         </View>

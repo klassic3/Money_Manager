@@ -10,6 +10,9 @@ export const SIGNUP = `/user/register`;
 export const LOGIN = `/user/login`;
 export const USER = `/user/user`;
 
+export const CREATETRANSACTION = `/transactions/create`;
+export const GETTRANSACTION = `/transactions/get`;
+
 // Create an Axios instance
 const api = axios.create({
     baseURL: API_URL,
