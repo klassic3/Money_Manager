@@ -1,22 +1,37 @@
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Modal } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Picker } from '@react-native-picker/picker';
 import { Toast } from 'react-native-toast-notifications';
 import { createTransaction } from '../services/transactionServices';
+import { colors } from '@/constants/theme';
 
-const CreateTransaction = ({ visible, onClose }) => {
+const CreateTransaction = ({ visible, onClose, refreshTransactions}) => {
 
-    const [title, setTitle] = useState('');
-    const [description, setDescription] = useState('');
-    const [category, setCategory] = useState('');
-    const [amount, setAmount] = useState('');
     const [transactionData, setTransactionData] = useState({
         title: '',
         description: '',
         category: '',
         amount: ''
     });
-    const handleCreate = async () => {
+
+    useEffect(() => {
+        if (visible) {
+            setTransactionData({
+                title: '',
+                description: '',
+                category: '',
+                amount: '',
+            });
+        }
+    }, [visible]);
+
+    const handleChange = (field, value) => {
+        setTransactionData((prevState) => ({ ...prevState, [field]: value }));
+    };
+
+    const handleCreate = async ( ) => {
+
+        const { title, description, category, amount } = transactionData;
 
         if (!title || !description || category === 'Select Category' || !amount) {
             Toast('Please fill in all fields', {
@@ -28,26 +43,15 @@ const CreateTransaction = ({ visible, onClose }) => {
             return;
         }
 
+        const transaction = {
+            title,
+            description,
+            category,
+            amount: category === 'otherIncome' || category === 'paycheck' ? parseFloat(amount) : -parseFloat(amount),
+        };
 
-        if (category !== 'otherIncome' || category !== 'paycheck') {
-            setTransactionData({
-                title,
-                description,
-                category,
-                amount: -parseFloat(amount),
-            });
-        }
-        else {
-            setTransactionData({
-                title,
-                description,
-                category,
-                amount: parseFloat(amount),
-            });
-        }
-        
-        try{
-            const res = await createTransaction(transactionData);
+        try {
+            const res = await createTransaction(transaction);
         }
         catch (error) {
             console.error('Error creating transaction:', error);
@@ -61,6 +65,13 @@ const CreateTransaction = ({ visible, onClose }) => {
         }
         console.log('Item created:', transactionData);
         onClose();
+        refreshTransactions();
+        Toast('Transaction created successfully', {
+            type: 'success',
+            placement: 'top',
+            duration: 4000,
+            animationType: 'slide-in',
+        });
     };
     return (
         <Modal
@@ -75,37 +86,39 @@ const CreateTransaction = ({ visible, onClose }) => {
                     <TextInput
                         style={styles.input}
                         placeholder="Title"
-                        value={title}
-                        onChangeText={setTitle}
+                        value={transactionData.title}
+                        onChangeText={(value) => handleChange('title', value)}
                     />
                     <TextInput
                         style={styles.input}
                         placeholder="Description"
-                        value={description}
-                        onChangeText={setDescription}
+                        value={transactionData.description}
+                        onChangeText={(value) => handleChange('description', value)}
                     />
-                    <Picker
-                        selectedValue={category}
-                        onValueChange={(itemValue, itemIndex) => setCategory(itemValue)}
-                        style={styles.input}
-                    >
-                        <Picker.Item label="Select Category" value="" enabled={false} />
-                        <Picker.Item label="Food" value="food" />
-                        <Picker.Item label="Transportation" value="transportation" />
-                        <Picker.Item label="Entertainment" value="entertainment" />
-                        <Picker.Item label="Utilities" value="utilities" />
-                        <Picker.Item label="Health" value="health" />
-                        <Picker.Item label="Education" value="education" />
-                        <Picker.Item label="Paycheck" value="paycheck" />
-                        <Picker.Item label="Other Income" value="otherIncome" />
-                        <Picker.Item label="Other Expense" value="otherExpense" />
-                    </Picker>
+                    <View style={styles.picker}>
+                        <Picker
+                            selectedValue={transactionData.category}
+                            onValueChange={(value) => handleChange('category', value)}
+                            mode="dropdown"
+                        >
+                            <Picker.Item label="Select Category" value="" enabled={false} />
+                            <Picker.Item label="Food" value="food" />
+                            <Picker.Item label="Transportation" value="transportation" />
+                            <Picker.Item label="Entertainment" value="entertainment" />
+                            <Picker.Item label="Utilities" value="utilities" />
+                            <Picker.Item label="Health" value="health" />
+                            <Picker.Item label="Education" value="education" />
+                            <Picker.Item label="Paycheck" value="paycheck" />
+                            <Picker.Item label="Other Income" value="otherIncome" />
+                            <Picker.Item label="Other Expense" value="otherExpense" />
+                        </Picker>
+                    </View>
 
                     <TextInput
                         style={styles.input}
                         placeholder="Amount"
-                        value={amount}
-                        onChangeText={setAmount}
+                        value={transactionData.amount}
+                        onChangeText={(value) => handleChange('amount', value)}
                     />
                     <TouchableOpacity style={styles.button} onPress={handleCreate}>
                         <Text style={styles.buttonText}>Create</Text>
@@ -124,7 +137,7 @@ export default CreateTransaction
 const styles = StyleSheet.create({
     modalBackground: {
         flex: 1,
-        backgroundColor: 'rgba(0,0,0,0.5)',
+        backgroundColor: 'rgba(58, 62, 78, 0.5)',
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -139,14 +152,23 @@ const styles = StyleSheet.create({
         marginBottom: 12,
     },
     input: {
-        borderColor: '#ccc',
+        borderColor: colors.inactive,
         borderWidth: 1,
         padding: 10,
         borderRadius: 6,
         marginBottom: 12,
     },
+    picker: {
+        height: 40,
+        borderColor: colors.inactive,
+        borderWidth: 1,
+        borderRadius: 6,
+        marginBottom: 12,
+        overflow: 'hidden',
+        justifyContent: 'center',
+    },
     button: {
-        backgroundColor: '#007bff',
+        backgroundColor: colors.secondary,
         padding: 12,
         borderRadius: 6,
         alignItems: 'center',

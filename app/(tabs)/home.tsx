@@ -1,19 +1,52 @@
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
+import { FlatList, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
 import { colors } from '@/constants/theme'
 import Card from '@/components/card'
 import CreateTransaction from '@/components/createTransaction'
 import Transactions from '@/components/transactions'
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
+import { getUser } from '@/services/userServices'
+import { getTransactions } from '@/services/transactionServices'
 
+interface Transaction {
+    _id: string;
+    amount: number;
+    category: string;
+    date: string;
+    description: string;
+    title: string;
+    userId: {
+        _id: string;
+        email: string;
+        name: string;
+    };
+}
 
 const home = () => {
-    
+
     const [modalVisible, setModalVisible] = useState(false);
+    const [balance, setBalance] = useState(0);
+    const [transactions, setTransactions] = useState<Transaction[]>([]);
+
+
+    const getAllTransactions = async () => {
+        const res = await getTransactions()
+        setTransactions(res)
+    }
+
+    const getBalance = async () => {
+        const res = await getUser()
+        setBalance(res.balance)
+    }
+
+    useEffect(() => {  
+        getAllTransactions()
+        getBalance()
+    }, [])
 
     return (
-        <ScrollView contentContainerStyle={{ flex: 1, alignItems: 'center', paddingTop: 20, backgroundColor: colors.background }}>
-            <Card balance={1200} income={1000} expense={2000} />
+        <View style={{ flex: 1, alignItems: 'center', paddingTop: 20, backgroundColor: colors.background }}>
+            <Card balance={balance} income={1000} expense={2000} />
             <Text style={
                 {
                     textAlign: 'left',
@@ -27,18 +60,24 @@ const home = () => {
                     paddingLeft: 20,
                 }
             }>Recent Transactions</Text>
-            <Transactions title={"Transaction1"} date={"2025"} amount={5000} />
-            <Transactions title={"Transaction2"} date={"2025"} amount={-5000} />
-            <Transactions title={"Transaction3"} date={"2025"} amount={5000} />
-            <Transactions title={"Transaction4"} date={"2025"} amount={-5000} />
+            <FlatList
+                data={transactions}
+                keyExtractor={(item) => item._id}  // Unique key for each item in the list
+                renderItem={({ item }) => (
+                    <Transactions title={item.title} date={item.date} amount={item.amount} />
+                )}
+            />
             <CreateTransaction
                 visible={modalVisible}
                 onClose={() => setModalVisible(false)}
+                refreshTransactions={() => {
+                    getAllTransactions();
+                    getBalance();} }// Pass the function to refresh transactions
             />
             <TouchableOpacity style={styles.fab} onPress={() => setModalVisible(true)} >
                 <FontAwesome6 name="circle-plus" size={60} color={colors.secondary} />
             </TouchableOpacity>
-        </ScrollView>
+        </View>
     )
 }
 
