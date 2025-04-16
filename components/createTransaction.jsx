@@ -1,11 +1,11 @@
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Modal } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { Picker } from '@react-native-picker/picker';
+import DropDownPicker from 'react-native-dropdown-picker';
 import { Toast } from 'react-native-toast-notifications';
 import { createTransaction } from '../services/transactionServices';
 import { colors } from '@/constants/theme';
 
-const CreateTransaction = ({ visible, onClose, refreshTransactions}) => {
+const CreateTransaction = ({ visible, onClose, refreshTransactions }) => {
 
     const [transactionData, setTransactionData] = useState({
         title: '',
@@ -13,6 +13,20 @@ const CreateTransaction = ({ visible, onClose, refreshTransactions}) => {
         category: '',
         amount: ''
     });
+
+    const [open, setOpen] = useState(false);
+    const [items, setItems] = useState([
+        { label: 'Food', value: 'food' },
+        { label: 'Transportation', value: 'transportation' },
+        { label: 'Entertainment', value: 'entertainment' },
+        { label: 'Utilities', value: 'utilities' },
+        { label: 'Health', value: 'health' },
+        { label: 'Education', value: 'education' },
+        { label: 'Paycheck', value: 'paycheck' },
+        { label: 'Other Income', value: 'otherIncome' },
+        { label: 'Other Expense', value: 'otherExpense' },
+    ]);
+
 
     useEffect(() => {
         if (visible) {
@@ -29,7 +43,7 @@ const CreateTransaction = ({ visible, onClose, refreshTransactions}) => {
         setTransactionData((prevState) => ({ ...prevState, [field]: value }));
     };
 
-    const handleCreate = async ( ) => {
+    const handleCreate = async () => {
 
         const { title, description, category, amount } = transactionData;
 
@@ -95,24 +109,24 @@ const CreateTransaction = ({ visible, onClose, refreshTransactions}) => {
                         value={transactionData.description}
                         onChangeText={(value) => handleChange('description', value)}
                     />
-                    <View style={styles.picker}>
-                        <Picker
-                            selectedValue={transactionData.category}
-                            onValueChange={(value) => handleChange('category', value)}
-                            mode="dropdown"
-                        >
-                            <Picker.Item label="Select Category" value="" enabled={false} />
-                            <Picker.Item label="Food" value="food" />
-                            <Picker.Item label="Transportation" value="transportation" />
-                            <Picker.Item label="Entertainment" value="entertainment" />
-                            <Picker.Item label="Utilities" value="utilities" />
-                            <Picker.Item label="Health" value="health" />
-                            <Picker.Item label="Education" value="education" />
-                            <Picker.Item label="Paycheck" value="paycheck" />
-                            <Picker.Item label="Other Income" value="otherIncome" />
-                            <Picker.Item label="Other Expense" value="otherExpense" />
-                        </Picker>
-                    </View>
+                        <DropDownPicker
+                            open={open}
+                            value={transactionData.category}
+                            items={items}
+                            setOpen={setOpen}
+                            setValue={(value) => handleChange('category', value())}
+                            setItems={setItems}
+                            placeholder="Select Category"
+                            style={{
+                                borderColor: colors.inactive,
+                                borderWidth: 1,
+                                borderRadius: 6,
+                                marginBottom: 12,
+                            }}
+                            dropDownContainerStyle={{
+                                borderColor: colors.inactive,
+                            }}
+                        />
 
                     <TextInput
                         style={styles.input}
@@ -157,15 +171,6 @@ const styles = StyleSheet.create({
         padding: 10,
         borderRadius: 6,
         marginBottom: 12,
-    },
-    picker: {
-        height: 40,
-        borderColor: colors.inactive,
-        borderWidth: 1,
-        borderRadius: 6,
-        marginBottom: 12,
-        overflow: 'hidden',
-        justifyContent: 'center',
     },
     button: {
         backgroundColor: colors.secondary,
