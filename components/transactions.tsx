@@ -45,8 +45,8 @@ const Transactions = ({ title, amount, category, date }: TransactionProps) => {
     const isExpense = amount < 0;
     const formattedDate = new Date(date).toLocaleDateString('en-US', {
         year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
+        month: 'long',
+        day: 'numeric',
     });
 
     return (

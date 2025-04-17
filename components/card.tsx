@@ -15,12 +15,12 @@ const Card = ({balance, income, expense}:cardProp ) => {
             <View style={styles.cashFlow}>
                 <View >
                     <Text style={styles.incomeText}>Income</Text>
-                    <Text style={styles.incomeAmount}>+{income}</Text>
+                    <Text style={styles.incomeAmount}>{income}</Text>
                 </View>
 
                 <View style={[styles.alignEnd]}>
                     <Text style={styles.expenseText}>Expenses</Text>
-                    <Text style={styles.expenseAmount}>-{expense}</Text>
+                    <Text style={styles.expenseAmount}>{expense}</Text>
                 </View>
             </View>
         </View>

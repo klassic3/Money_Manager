@@ -12,6 +12,7 @@ export const USER = `/user/user`;
 
 export const CREATETRANSACTION = `/transactions/create`;
 export const GETTRANSACTION = `/transactions/get`;
+export const MONTHLYDATA = `/transactions/monthlyData`;
 
 // Create an Axios instance
 const api = axios.create({

@@ -1,11 +1,21 @@
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Modal } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import DropDownPicker from 'react-native-dropdown-picker';
-import { Toast } from 'react-native-toast-notifications';
+import { useToast } from 'react-native-toast-notifications';
 import { createTransaction } from '../services/transactionServices';
 import { colors } from '@/constants/theme';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
-const CreateTransaction = ({ visible, onClose, refreshTransactions }) => {
+type CreateTransactionProps = {
+    visible: boolean;
+    onClose: () => void;
+    refreshTransactions: () => void;
+};
+
+const CreateTransaction = ({ visible, onClose, refreshTransactions }:CreateTransactionProps) => {
+
+    const Toast = useToast();
 
     const [transactionData, setTransactionData] = useState({
         title: '',
@@ -14,17 +24,56 @@ const CreateTransaction = ({ visible, onClose, refreshTransactions }) => {
         amount: ''
     });
 
+    const [categoryValue, setCategoryValue] = useState('');
+
+
     const [open, setOpen] = useState(false);
     const [items, setItems] = useState([
-        { label: 'Food', value: 'food' },
-        { label: 'Transportation', value: 'transportation' },
-        { label: 'Entertainment', value: 'entertainment' },
-        { label: 'Utilities', value: 'utilities' },
-        { label: 'Health', value: 'health' },
-        { label: 'Education', value: 'education' },
-        { label: 'Paycheck', value: 'paycheck' },
-        { label: 'Other Income', value: 'otherIncome' },
-        { label: 'Other Expense', value: 'otherExpense' },
+        {
+            label: 'Food',
+            value: 'food',
+            icon: () => <MaterialCommunityIcons name="noodles" size={30} color={colors.secondary} />
+        },
+        {
+            label: 'Transportation',
+            value: 'transportation',
+            icon: () => <MaterialCommunityIcons name="car" size={30} color={colors.secondary} />
+        },
+        {
+            label: 'Entertainment',
+            value: 'entertainment',
+            icon: () => <MaterialCommunityIcons name="gamepad-variant" size={30} color={colors.secondary} />
+        },
+        {
+            label: 'Utilities',
+            value: 'utilities',
+            icon: () => <MaterialCommunityIcons name="lightbulb-on-outline" size={30} color={colors.secondary} />
+        },
+        {
+            label: 'Health',
+            value: 'health',
+            icon: () => <MaterialCommunityIcons name="heart-pulse" size={30} color={colors.secondary} />
+        },
+        {
+            label: 'Education',
+            value: 'education',
+            icon: () => <MaterialIcons name="my-library-books" size={30} color={colors.secondary} />
+        },
+        {
+            label: 'Paycheck',
+            value: 'paycheck',
+            icon: () => <MaterialCommunityIcons name="wallet-plus" size={30} color={colors.secondary} />
+        },
+        {
+            label: 'Other Income',
+            value: 'otherIncome',
+            icon: () => <MaterialCommunityIcons name="cash" size={30} color={colors.secondary} />
+        },
+        {
+            label: 'Other Expense',
+            value: 'otherExpense',
+            icon: () => <MaterialCommunityIcons name="cash-minus" size={30} color={colors.secondary} />
+        },
     ]);
 
 
@@ -39,7 +88,12 @@ const CreateTransaction = ({ visible, onClose, refreshTransactions }) => {
         }
     }, [visible]);
 
-    const handleChange = (field, value) => {
+    useEffect(() => {
+        handleChange('category', categoryValue);
+    }, [categoryValue]);
+    
+
+    const handleChange = (field:string, value:any) => {
         setTransactionData((prevState) => ({ ...prevState, [field]: value }));
     };
 
@@ -48,7 +102,7 @@ const CreateTransaction = ({ visible, onClose, refreshTransactions }) => {
         const { title, description, category, amount } = transactionData;
 
         if (!title || !description || category === 'Select Category' || !amount) {
-            Toast('Please fill in all fields', {
+            Toast.show('Please fill in all fields', {
                 type: 'danger',
                 placement: 'top',
                 duration: 4000,
@@ -69,7 +123,7 @@ const CreateTransaction = ({ visible, onClose, refreshTransactions }) => {
         }
         catch (error) {
             console.error('Error creating transaction:', error);
-            Toast('Error creating transaction', {
+            Toast.show('Error creating transaction', {
                 type: 'danger',
                 placement: 'top',
                 duration: 4000,
@@ -80,7 +134,7 @@ const CreateTransaction = ({ visible, onClose, refreshTransactions }) => {
         console.log('Item created:', transactionData);
         onClose();
         refreshTransactions();
-        Toast('Transaction created successfully', {
+        Toast.show('Transaction created successfully', {
             type: 'success',
             placement: 'top',
             duration: 4000,
@@ -109,24 +163,27 @@ const CreateTransaction = ({ visible, onClose, refreshTransactions }) => {
                         value={transactionData.description}
                         onChangeText={(value) => handleChange('description', value)}
                     />
-                        <DropDownPicker
-                            open={open}
-                            value={transactionData.category}
-                            items={items}
-                            setOpen={setOpen}
-                            setValue={(value) => handleChange('category', value())}
-                            setItems={setItems}
-                            placeholder="Select Category"
-                            style={{
-                                borderColor: colors.inactive,
-                                borderWidth: 1,
-                                borderRadius: 6,
-                                marginBottom: 12,
-                            }}
-                            dropDownContainerStyle={{
-                                borderColor: colors.inactive,
-                            }}
-                        />
+                    <DropDownPicker
+                        open={open}
+                        value={transactionData.category}
+                        items={items}
+                        setOpen={setOpen}
+                        setValue={setCategoryValue}
+                        setItems={setItems}
+                        placeholder="Select Category"
+                        placeholderStyle={{
+                            color: colors.inactive,
+                        }}
+                        style={{
+                            borderColor: colors.inactive,
+                            borderWidth: 1,
+                            borderRadius: 6,
+                            marginBottom: 12,
+                        }}
+                        dropDownContainerStyle={{
+                            borderColor: colors.inactive,
+                        }}
+                    />
 
                     <TextInput
                         style={styles.input}

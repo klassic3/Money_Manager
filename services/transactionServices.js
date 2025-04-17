@@ -1,5 +1,5 @@
 import api from "./api";
-import {CREATETRANSACTION, GETTRANSACTION} from "./api";
+import {CREATETRANSACTION, GETTRANSACTION, MONTHLYDATA} from "./api";
 
 const createTransaction = async (transactionData) => {
     try {
@@ -18,7 +18,19 @@ const getTransactions = async () => {
         throw error.response.data;
     }
 }
+
+const getMonthlyData = async () => {
+    try {
+        const response = await api.get(MONTHLYDATA);
+        return response.data;
+    } catch (error) {
+        throw error.response.data;
+    }
+}
+
+
 export {
     createTransaction,
     getTransactions,
+    getMonthlyData,
 }

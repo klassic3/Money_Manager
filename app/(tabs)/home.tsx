@@ -6,7 +6,8 @@ import CreateTransaction from '@/components/createTransaction'
 import Transactions from '@/components/transactions'
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import { getUser } from '@/services/userServices'
-import { getTransactions } from '@/services/transactionServices'
+import { getMonthlyData, getTransactions } from '@/services/transactionServices'
+import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry'
 
 interface Transaction {
     _id: string;
@@ -27,6 +28,8 @@ const home = () => {
     const [modalVisible, setModalVisible] = useState(false);
     const [balance, setBalance] = useState(0);
     const [transactions, setTransactions] = useState<Transaction[]>([]);
+    const [income, setIncome] = useState(0);
+    const [expense, setExpense] = useState(0);
 
 
     const getAllTransactions = async () => {
@@ -39,14 +42,22 @@ const home = () => {
         setBalance(res.balance)
     }
 
-    useEffect(() => {  
+    const getMonthly = async () => {
+        const res = await getMonthlyData()
+        setIncome(res.monthlyIncome)
+        setExpense(res.monthlyExpense)
+    }
+
+
+    useEffect(() => {
         getAllTransactions()
         getBalance()
+        getMonthly()
     }, [])
 
     return (
         <View style={{ flex: 1, alignItems: 'center', paddingTop: 20, backgroundColor: colors.background }}>
-            <Card balance={balance} income={1000} expense={2000} />
+            <Card balance={balance} income={income} expense={expense} />
             <Text style={
                 {
                     textAlign: 'left',
@@ -72,7 +83,9 @@ const home = () => {
                 onClose={() => setModalVisible(false)}
                 refreshTransactions={() => {
                     getAllTransactions();
-                    getBalance();} }// Pass the function to refresh transactions
+                    getBalance();
+                    getMonthly()
+                }}// Pass the function to refresh transactions
             />
             <TouchableOpacity style={styles.fab} onPress={() => setModalVisible(true)} >
                 <FontAwesome6 name="circle-plus" size={60} color={colors.secondary} />
