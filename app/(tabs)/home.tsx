@@ -7,7 +7,7 @@ import Transactions from '@/components/transactions'
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import { getUser } from '@/services/userServices'
 import { getMonthlyData, getTransactions } from '@/services/transactionServices'
-import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry'
+import { useTransactionContext } from '@/hooks/transactionContext'
 
 interface Transaction {
     _id: string;
@@ -30,6 +30,8 @@ const home = () => {
     const [transactions, setTransactions] = useState<Transaction[]>([]);
     const [income, setIncome] = useState(0);
     const [expense, setExpense] = useState(0);
+
+    const { triggerRefresh } = useTransactionContext()
 
 
     const getAllTransactions = async () => {
@@ -77,6 +79,7 @@ const home = () => {
                 renderItem={({ item }) => (
                     <Transactions title={item.title} date={item.date} amount={item.amount} category={item.category} />
                 )}
+                contentContainerStyle={{ paddingBottom: 40 }}
             />
             <CreateTransaction
                 visible={modalVisible}
@@ -85,6 +88,7 @@ const home = () => {
                     getAllTransactions();
                     getBalance();
                     getMonthly()
+                    triggerRefresh()
                 }}// Pass the function to refresh transactions
             />
             <TouchableOpacity style={styles.fab} onPress={() => setModalVisible(true)} >
