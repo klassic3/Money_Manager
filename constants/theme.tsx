@@ -7,4 +7,6 @@ export const colors = {
     error: '#b00020',
     onPrimary: '#ffffff',
     inactive: '#61737A',
+    income: '#4CAF50',
+    expense: '#F44336',
 }

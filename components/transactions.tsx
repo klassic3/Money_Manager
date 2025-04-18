@@ -58,7 +58,7 @@ const Transactions = ({ title, amount, category, date }: TransactionProps) => {
                     <Text style={styles.date}>{formattedDate}</Text>
                 </View>
             </View>
-            <Text style={[styles.amount, { color: isExpense ? '#F44336' : '#4CAF50' }]}>
+            <Text style={[styles.amount, { color: isExpense ? colors.expense : colors.income }]}>
                 {isExpense ? `-$${Math.abs(amount).toFixed(2)}` : `+$${amount.toFixed(2)}`}
             </Text>
         </View>

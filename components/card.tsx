@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
+import { colors } from '@/constants/theme';
 
 type cardProp = {
     balance: number;
@@ -65,23 +66,23 @@ const styles = StyleSheet.create({
     incomeText: {
         fontSize: 16,
         fontWeight: 'bold',
-        color: '#4CAF50',
+        color: colors.income,
     },
     incomeAmount: {
         fontSize: 20,
         fontWeight: 'bold',
-        color: '#4CAF50',
+        color: colors.income,
         marginTop: 5,
     },
     expenseText: {
         fontSize: 16,
         fontWeight: 'bold',
-        color: '#F44336',
+        color: colors.expense,
     },
     expenseAmount: {
         fontSize: 20,
         fontWeight: 'bold',
-        color: '#F44336',
+        color: colors.expense,
         marginTop: 5,
     },
 });
