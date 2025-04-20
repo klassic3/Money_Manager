@@ -9,4 +9,6 @@ export const colors = {
     inactive: '#61737A',
     income: '#4CAF50',
     expense: '#F44336',
+    primaryText: '#000000',
+    secondaryText: '#61737A',
 }

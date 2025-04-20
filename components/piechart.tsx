@@ -32,12 +32,12 @@ const Piechart = () => {
 
     // Colors for categories (assign as needed or dynamically)
     const categoryColors: { [key: string]: string } = {
-        food: "#FF6384",
-        transportation: "#36A2EB",
-        health: "#FFCE56",
-        entertainment: "#4BC0C0",
-        utilities: "#9966FF",
-        otherExpenses: "#FF9F40",
+        food: "#B0C4DE",
+        transportation: "#4169E1",
+        health: "#D8BFD8",
+        entertainment: "#87CEFA",
+        utilities: "#6A5ACD",
+        otherExpenses: "#708090",
     };
 
     const chartConfig = {
@@ -133,8 +133,8 @@ const Piechart = () => {
                 </View>
 
                 {pieChartData.map((item, index) => (
-                    <View>
-                        <View key={index} style={styles.legendRow}>
+                    <View key={item.name || index}>
+                        <View style={styles.legendRow}>
                             <Text style={styles.legendText}>{capitalizeFirst(item.name)}</Text>
                             <Text style={styles.legendAmount}>{item.population}</Text>
                         </View>
@@ -144,13 +144,14 @@ const Piechart = () => {
                                     styles.progressBarFill,
                                     {
                                         backgroundColor: item.color,
-                                        width: `${(item.population / income) * 100}%`, // dynamically set width
+                                        width: `${(item.population / income) * 100}%`,
                                     },
                                 ]}
                             />
                         </View>
                     </View>
                 ))}
+
             </View>
         </View>
     )
@@ -176,7 +177,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold',
         marginBottom: 16,
-        color: colors.inactive,
+        color: colors.primaryText,
         alignSelf: 'flex-start',
         borderBottomColor: colors.inactive,
         borderBottomWidth: 0.9,
@@ -198,7 +199,7 @@ const styles = StyleSheet.create({
     },
     legendText: {
         fontSize: 16,
-        color: colors.inactive,
+        color: colors.primaryText,
     },
     legendAmount: {
         fontSize: 16,

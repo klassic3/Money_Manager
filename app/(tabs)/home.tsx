@@ -58,7 +58,7 @@ const home = () => {
     }, [])
 
     return (
-        <View style={{ flex: 1, alignItems: 'center', paddingTop: 20, backgroundColor: colors.background }}>
+        <View style={{ flex: 1, alignItems: 'center', paddingTop: 20, backgroundColor: colors.background, paddingBottom: 40  }}>
             <Card balance={balance} income={income} expense={expense} />
             <Text style={
                 {
@@ -71,6 +71,7 @@ const home = () => {
                     paddingBottom: 10,
                     marginTop: 20,
                     paddingLeft: 20,
+                    color: colors.primaryText,
                 }
             }>Recent Transactions</Text>
             <FlatList
@@ -79,7 +80,6 @@ const home = () => {
                 renderItem={({ item }) => (
                     <Transactions title={item.title} date={item.date} amount={item.amount} category={item.category} />
                 )}
-                contentContainerStyle={{ paddingBottom: 40 }}
             />
             <CreateTransaction
                 visible={modalVisible}

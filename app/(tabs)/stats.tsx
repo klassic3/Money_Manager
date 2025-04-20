@@ -1,15 +1,17 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import Piechart from '@/components/piechart'
 import { colors } from '@/constants/theme'
+import Linegraph from '@/components/linegraph'
 
 const stats = () => {
 
     return (
-        <View  style={{ flex: 1, alignItems: 'center', paddingTop: 20, backgroundColor: colors.background }}>
+        <ScrollView contentContainerStyle={{ alignItems: 'center', paddingTop: 20, backgroundColor: colors.background, paddingBottom: 40 }}>
             <Text>stats</Text>
-            <Piechart/>
-        </View>
+            <Piechart />
+            <Linegraph />
+        </ScrollView>
     )
 }
 

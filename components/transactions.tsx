@@ -88,10 +88,11 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 16,
         fontWeight: '500',
+        color: colors.primaryText,
     },
     date: {
         fontSize: 12,
-        color: '#888',
+        color: colors.secondaryText,
         marginTop: 2,
     },
     amount: {

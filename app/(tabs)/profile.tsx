@@ -35,16 +35,15 @@ const profile = () => {
 
     return (
         <ScrollView contentContainerStyle={{ flexGrow: 1, padding: 20, backgroundColor: colors.background }}>
-
             <View style={{ alignItems: 'center', marginBottom: 20 }}>
-                <Text style={{ fontSize: 24, fontWeight: 'bold', marginBottom: 20, color: '#000' }}>Profile</Text>
+                <Text style={styles.title}>Profile</Text>
                 <Image
-                    resizeMode='contain'
+                    resizeMode="contain"
                     source={require('../../assets/images/Profile.png')}
                     style={styles.logo}
                 />
-                <Text style={{ fontSize: 18, fontWeight: 'bold', marginTop: 10, color: '#000' }}>{userData.name}</Text>
-                <Text style={{ fontSize: 16, color: '#666' }}>{userData.email}</Text>
+                <Text style={styles.name}>{userData.name}</Text>
+                <Text style={styles.email}>{userData.email}</Text>
             </View>
 
             <View style={styles.section}>
@@ -57,18 +56,21 @@ const profile = () => {
                 <TouchableOpacity style={styles.item}>
                     <Text style={styles.itemText}>Privacy Policy</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.item} onPress={() => {
-                    AsyncStorage.removeItem('authToken')
-                    router.replace('/login')
-                }}>
+                <TouchableOpacity
+                    style={styles.item}
+                    onPress={() => {
+                        AsyncStorage.removeItem('authToken');
+                        router.replace('/login');
+                    }}
+                >
                     <Text style={styles.itemText}>Log Out</Text>
                 </TouchableOpacity>
             </View>
         </ScrollView>
-    )
-}
+    );
+};
 
-export default profile
+export default profile;
 
 const styles = StyleSheet.create({
     logo: {
@@ -76,24 +78,32 @@ const styles = StyleSheet.create({
         height: 200,
         borderRadius: 50,
     },
+    title: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        marginBottom: 20,
+        color: '#000',
+    },
+    name: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        marginTop: 10,
+        color: '#000',
+    },
+    email: {
+        fontSize: 16,
+        color: '#666',
+    },
     section: {
         marginBottom: 24,
-    },
-    sectionTitle: {
-        fontSize: 16,
-        fontWeight: '700',
-        color: '#333',
-        marginBottom: 12,
     },
     item: {
         paddingVertical: 12,
         borderBottomWidth: 1,
-        borderColor: '#eee',
+        borderColor: colors.inactive,
     },
     itemText: {
         fontSize: 16,
-        color: '#333',
+        color: colors.primaryText,
     },
-
-})
-
+});

@@ -1,13 +1,14 @@
 import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 import { colors } from '@/constants/theme';
+import AntDesign from '@expo/vector-icons/AntDesign';
 
 type cardProp = {
     balance: number;
     income: number;
     expense: number;
 };
-const Card = ({balance, income, expense}:cardProp ) => {
+const Card = ({ balance, income, expense }: cardProp) => {
     return (
         <View style={styles.card}>
             <Text style={styles.balanceText}>Current Balance</Text>
@@ -15,12 +16,19 @@ const Card = ({balance, income, expense}:cardProp ) => {
 
             <View style={styles.cashFlow}>
                 <View >
-                    <Text style={styles.incomeText}>Income</Text>
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+
+                        <AntDesign name="arrowup" size={20} color={colors.income} />
+                        <Text style={styles.incomeText}>Income</Text>
+                    </View>
                     <Text style={styles.incomeAmount}>{income}</Text>
                 </View>
 
                 <View style={[styles.alignEnd]}>
-                    <Text style={styles.expenseText}>Expenses</Text>
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <AntDesign name="arrowdown" size={20} color={colors.expense} />
+                        <Text style={styles.expenseText}>Expense</Text>
+                    </View>
                     <Text style={styles.expenseAmount}>{expense}</Text>
                 </View>
             </View>
@@ -48,12 +56,14 @@ const styles = StyleSheet.create({
     balanceText: {
         fontSize: 18,
         textAlign: 'center',
+        color: colors.primaryText,
     },
     balanceAmount: {
         fontSize: 36,
         fontWeight: 'bold',
         marginVertical: 5,
         textAlign: 'center',
+        color: colors.primaryText,
     },
     cashFlow: {
         flexDirection: 'row',
@@ -73,6 +83,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: colors.income,
         marginTop: 5,
+        alignSelf: 'center',
     },
     expenseText: {
         fontSize: 16,
@@ -84,5 +95,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: colors.expense,
         marginTop: 5,
+        alignSelf: 'center',
     },
 });
