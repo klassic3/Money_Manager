@@ -1,12 +1,13 @@
 import { StyleSheet, Text, View, Dimensions } from 'react-native';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { LineChart } from 'react-native-chart-kit';
 import { colors } from '@/constants/theme'; // Assuming you have a theme
+import { getMonthlyTrends } from '@/services/transactionServices';
 
 const Linegraph = () => {
     const screenWidth = Dimensions.get('window').width;
 
-    const data = {
+    const [data, setData] = useState({
         labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
         datasets: [
             {
@@ -16,7 +17,7 @@ const Linegraph = () => {
             },
         ],
         legend: ["Monthly Trends"],
-    };
+    });
 
     const chartConfig = {
         backgroundGradientFrom: "#fff",
@@ -31,6 +32,26 @@ const Linegraph = () => {
         },
     };
 
+    useEffect(() => {
+        const fetchData = async () => {
+            const res = await getMonthlyTrends()
+            const chartData = {
+                labels: res.map((item: { month: string; totalSpent: number }) => item.month.slice(0, 3)), 
+                datasets: [
+                    {
+                        data: res.map((item: { month: string; totalSpent: number }) => Math.abs(item.totalSpent)),
+                        color: (opacity = 1) => colors.secondary,
+                        strokeWidth: 2,
+                    },
+                ],
+                legend: ["Monthly Trends"],
+            };
+            setData(chartData)
+        };
+
+        fetchData()
+    }
+        , []);
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Spending Over Time</Text>

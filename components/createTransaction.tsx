@@ -1,9 +1,13 @@
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, Modal } from 'react-native'
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Modal, Platform } from 'react-native'
 import React, { useEffect, useState } from 'react'
+
 import DropDownPicker from 'react-native-dropdown-picker';
+
 import { useToast } from 'react-native-toast-notifications';
 import { createTransaction } from '../services/transactionServices';
 import { colors } from '@/constants/theme';
+
+
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
@@ -13,7 +17,7 @@ type CreateTransactionProps = {
     refreshTransactions: () => void;
 };
 
-const CreateTransaction = ({ visible, onClose, refreshTransactions }:CreateTransactionProps) => {
+const CreateTransaction = ({ visible, onClose, refreshTransactions }: CreateTransactionProps) => {
 
     const Toast = useToast();
 
@@ -21,11 +25,11 @@ const CreateTransaction = ({ visible, onClose, refreshTransactions }:CreateTrans
         title: '',
         description: '',
         category: '',
-        amount: ''
+        amount: '',
+        date: '',
     });
 
     const [categoryValue, setCategoryValue] = useState('');
-
 
     const [open, setOpen] = useState(false);
     const [items, setItems] = useState([
@@ -84,6 +88,7 @@ const CreateTransaction = ({ visible, onClose, refreshTransactions }:CreateTrans
                 description: '',
                 category: '',
                 amount: '',
+                date: '',
             });
         }
     }, [visible]);
@@ -91,15 +96,15 @@ const CreateTransaction = ({ visible, onClose, refreshTransactions }:CreateTrans
     useEffect(() => {
         handleChange('category', categoryValue);
     }, [categoryValue]);
-    
 
-    const handleChange = (field:string, value:any) => {
+
+    const handleChange = (field: string, value: any) => {
         setTransactionData((prevState) => ({ ...prevState, [field]: value }));
     };
 
     const handleCreate = async () => {
 
-        const { title, description, category, amount } = transactionData;
+        const { title, description, category, amount, date } = transactionData;
 
         if (!title || !description || category === 'Select Category' || !amount) {
             Toast.show('Please fill in all fields', {
@@ -110,14 +115,16 @@ const CreateTransaction = ({ visible, onClose, refreshTransactions }:CreateTrans
             });
             return;
         }
-
+console.log('Transaction Data:', transactionData);
         const transaction = {
             title,
             description,
             category,
             amount: category === 'otherIncome' || category === 'paycheck' ? parseFloat(amount) : -parseFloat(amount),
+            date: new Date(date) || '',
         };
 
+        console.log('Transaction:', transaction);
         try {
             const res = await createTransaction(transaction);
         }
@@ -191,6 +198,13 @@ const CreateTransaction = ({ visible, onClose, refreshTransactions }:CreateTrans
                         value={transactionData.amount}
                         onChangeText={(value) => handleChange('amount', value)}
                     />
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Date"
+                        value={transactionData.date}
+                        onChangeText={(value) => handleChange('date', value)}
+                    />
+
                     <TouchableOpacity style={styles.button} onPress={handleCreate}>
                         <Text style={styles.buttonText}>Create</Text>
                     </TouchableOpacity>

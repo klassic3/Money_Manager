@@ -14,6 +14,7 @@ export const CREATETRANSACTION = `/transactions/create`;
 export const GETTRANSACTION = `/transactions/get`;
 export const MONTHLYDATA = `/transactions/monthlyData`;
 export const MONTHLYCATEGORIES = `/transactions/monthlyCategories`;
+export const MONTHLYTREND = `/transactions/monthlyTrend`;
 
 // Create an Axios instance
 const api = axios.create({
