@@ -3,9 +3,11 @@ import React, { useEffect, useState } from 'react'
 import { getTransactions } from '@/services/transactionServices'
 import { colors } from '@/constants/theme';
 import Transactions from '@/components/transactions';
+import { useTransactionContext } from '@/hooks/transactionContext';
 
 const transactions = () => {
 
+    const {refreshFlag} = useTransactionContext()
 
     interface Transaction {
         _id: string;
@@ -31,7 +33,7 @@ const transactions = () => {
 
 useEffect(() => {
     getAllTransactions()
-}, [])
+}, [refreshFlag])
 
     return (
         <View style={{ flex: 1, alignItems: 'center', paddingTop: 20, backgroundColor: colors.background, paddingBottom: 40  }}>

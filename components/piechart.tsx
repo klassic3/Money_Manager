@@ -26,7 +26,7 @@ const Piechart = () => {
         { name: "health", population: 0, color: "#FFCE56", legendFontColor: "#7F7F7F", legendFontSize: 15 },
         { name: "entertainment", population: 0, color: "#4BC0C0", legendFontColor: "#7F7F7F", legendFontSize: 15 },
         { name: "utilities", population: 0, color: "#9966FF", legendFontColor: "#7F7F7F", legendFontSize: 15 },
-        { name: "otherExpenses", population: 0, color: "#FF9F40", legendFontColor: "#7F7F7F", legendFontSize: 15 },
+        { name: "otherExpense", population: 0, color: "#FF9F40", legendFontColor: "#7F7F7F", legendFontSize: 15 },
     ])
 
 
@@ -37,7 +37,7 @@ const Piechart = () => {
         health: "#D8BFD8",
         entertainment: "#87CEFA",
         utilities: "#6A5ACD",
-        otherExpenses: "#708090",
+        otherExpense: "#708090",
     };
 
     const chartConfig = {

@@ -10,15 +10,16 @@ import { colors } from '@/constants/theme';
 
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { useTransactionContext } from '@/hooks/transactionContext';
 
 type CreateTransactionProps = {
     visible: boolean;
     onClose: () => void;
-    refreshTransactions: () => void;
 };
 
-const CreateTransaction = ({ visible, onClose, refreshTransactions }: CreateTransactionProps) => {
+const CreateTransaction = ({ visible, onClose }: CreateTransactionProps) => {
 
+    const { triggerRefresh } = useTransactionContext()
     const Toast = useToast();
 
     const [transactionData, setTransactionData] = useState({
@@ -140,7 +141,7 @@ console.log('Transaction Data:', transactionData);
         }
         console.log('Item created:', transactionData);
         onClose();
-        refreshTransactions();
+        triggerRefresh();
         Toast.show('Transaction created successfully', {
             type: 'success',
             placement: 'top',

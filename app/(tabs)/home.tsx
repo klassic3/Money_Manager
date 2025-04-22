@@ -37,6 +37,7 @@ const home = () => {
     });
 
     const { triggerRefresh } = useTransactionContext()
+    const { refreshFlag } = useTransactionContext()
     const router = useRouter()
 
     const getAllTransactions = async () => {
@@ -74,7 +75,7 @@ const home = () => {
         getBalance()
         getMonthly()
         getProfile()
-    }, [])
+    }, [refreshFlag])
 
     return (
         <View style={{ flex: 1, alignItems: 'center', paddingTop: 20, backgroundColor: colors.background, paddingBottom: 40 }}>
@@ -127,19 +128,6 @@ const home = () => {
                     <Transactions title={item.title} date={item.date} amount={item.amount} category={item.category} />
                 )}
             />
-            <CreateTransaction
-                visible={modalVisible}
-                onClose={() => setModalVisible(false)}
-                refreshTransactions={() => {
-                    getAllTransactions();
-                    getBalance();
-                    getMonthly()
-                    triggerRefresh()
-                }}// Pass the function to refresh transactions
-            />
-            <TouchableOpacity style={styles.fab} onPress={() => setModalVisible(true)} >
-                <FontAwesome6 name="circle-plus" size={60} color={colors.secondary} />
-            </TouchableOpacity>
         </View>
     )
 }
@@ -147,16 +135,4 @@ const home = () => {
 export default home
 
 const styles = StyleSheet.create({
-    fab: {
-        position: 'absolute',
-        bottom: 55,
-        right: 20,
-        justifyContent: 'center',
-        alignItems: 'center',
-        elevation: 5,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.3,
-        shadowRadius: 4,
-    },
 })
