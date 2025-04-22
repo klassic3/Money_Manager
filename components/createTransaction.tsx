@@ -1,7 +1,9 @@
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, Modal, Platform } from 'react-native'
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Modal, Platform, Button } from 'react-native'
 import React, { useEffect, useState } from 'react'
 
 import DropDownPicker from 'react-native-dropdown-picker';
+import DateTimePicker from '@react-native-community/datetimepicker';
+
 
 import { useToast } from 'react-native-toast-notifications';
 import { createTransaction } from '../services/transactionServices';
@@ -31,7 +33,7 @@ const CreateTransaction = ({ visible, onClose }: CreateTransactionProps) => {
     });
 
     const [categoryValue, setCategoryValue] = useState('');
-
+    const [show, setShow] = useState(false);
     const [open, setOpen] = useState(false);
     const [items, setItems] = useState([
         {
@@ -87,9 +89,9 @@ const CreateTransaction = ({ visible, onClose }: CreateTransactionProps) => {
             setTransactionData({
                 title: '',
                 description: '',
-                category: '',
+                category: 'Select Category',
                 amount: '',
-                date: '',
+                date: new Date().toISOString(),
             });
         }
     }, [visible]);
@@ -116,7 +118,7 @@ const CreateTransaction = ({ visible, onClose }: CreateTransactionProps) => {
             });
             return;
         }
-console.log('Transaction Data:', transactionData);
+        console.log('Transaction Data:', transactionData);
         const transaction = {
             title,
             description,
@@ -197,14 +199,39 @@ console.log('Transaction Data:', transactionData);
                         style={styles.input}
                         placeholder="Amount"
                         value={transactionData.amount}
-                        onChangeText={(value) => handleChange('amount', value)}
+                        keyboardType="decimal-pad"
+                        inputMode="decimal"
+                        onChangeText={(value) => {
+                            const sanitized = value.replace(/[^0-9.]/g, '');
+                            handleChange('amount', sanitized);
+                        }}
                     />
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Date"
-                        value={transactionData.date}
-                        onChangeText={(value) => handleChange('date', value)}
-                    />
+
+                    <TouchableOpacity onPress={() => setShow(true)}>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Select Date"
+                            value={new Date(transactionData.date).toLocaleDateString()}
+                            editable={false}
+                            pointerEvents="none"
+                        />
+                    </TouchableOpacity>
+                    {show && (
+                        <DateTimePicker
+                            value={transactionData.date ? new Date(transactionData.date) : new Date()}
+                            mode="date"
+                            display="default" // 'calendar' | 'spinner' | 'default'
+                            onTouchCancel={() => setShow(false)}
+                            maximumDate={new Date()}
+                            onChange={(event, selectedDate) => {
+                                setShow(Platform.OS === 'ios');
+                                if (selectedDate) {
+                                    handleChange('date', selectedDate.toISOString());
+                                }
+                            }}
+
+                        />
+                    )}
 
                     <TouchableOpacity style={styles.button} onPress={handleCreate}>
                         <Text style={styles.buttonText}>Create</Text>
@@ -214,7 +241,7 @@ console.log('Transaction Data:', transactionData);
                     </TouchableOpacity>
                 </View>
             </View>
-        </Modal>
+        </Modal >
     )
 }
 
