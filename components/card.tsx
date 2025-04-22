@@ -2,7 +2,6 @@ import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 import { colors } from '@/constants/theme';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import { Line } from 'react-native-svg';
 
 type cardProp = {
     balance: number;
@@ -99,7 +98,6 @@ const styles = StyleSheet.create({
     balanceAmount: {
         fontSize: 36,
         fontWeight: 'bold',
-        marginVertical: 5,
         textAlign: 'center',
         color: colors.primaryText,
     },

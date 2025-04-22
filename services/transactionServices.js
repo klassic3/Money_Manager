@@ -1,4 +1,4 @@
-import {CREATETRANSACTION, GETTRANSACTION, MONTHLYDATA, MONTHLYCATEGORIES, MONTHLYTREND} from "./api";
+import { CREATETRANSACTION, GETTRANSACTION, MONTHLYDATA, MONTHLYCATEGORIES, MONTHLYTREND } from "./api";
 import api from "./api";
 
 const createTransaction = async (transactionData) => {
@@ -28,9 +28,13 @@ const getMonthlyData = async () => {
     }
 }
 
-const getMonthlyCategories = async () => {
+const getMonthlyCategories = async (month, year) => {
     try {
-        const response = await api.get(MONTHLYCATEGORIES);
+        const response = await api.get(MONTHLYCATEGORIES,
+            {
+                params: { month, year }
+            }
+        );
         return response.data;
     } catch (error) {
         throw error.response.data;

@@ -16,10 +16,6 @@ export default function TabLayout() {
 
     const [modalVisible, setModalVisible] = useState(false);
 
-
-
-
-
     return (
         <TransactionProvider>
             <View style={{ flex: 1, backgroundColor: colors.background }}>
