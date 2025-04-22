@@ -17,9 +17,6 @@ const profile = () => {
         const getProfile = async () => {
             try {
                 const res = await getUser()
-                if (res) {
-                    console.log(res)
-                }
                 setUserData({
                     name: res.name,
                     email: res.email,

@@ -6,6 +6,8 @@ import { colors } from '@/constants/theme';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+
 import { TransactionProvider } from '@/hooks/transactionContext';
 
 export default function TabLayout() {
@@ -43,6 +45,13 @@ export default function TabLayout() {
                         tabBarIcon: ({ size, color }) => (
                             <Ionicons name="stats-chart-sharp" size={size} color={color} />
                         ),
+                    }}
+                />
+                <Tabs.Screen
+                    name='transactions'
+                    options={{
+                        tabBarIcon: ({ size, color }) => (
+                            <MaterialCommunityIcons name="notebook-multiple" size={size} color={color} />),
                     }}
                 />
                 <Tabs.Screen

@@ -1,7 +1,8 @@
 import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 import { colors } from '@/constants/theme';
-import AntDesign from '@expo/vector-icons/AntDesign';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { Line } from 'react-native-svg';
 
 type cardProp = {
     balance: number;
@@ -9,30 +10,67 @@ type cardProp = {
     expense: number;
 };
 const Card = ({ balance, income, expense }: cardProp) => {
+
+    const currentDate = new Date();
+    const monthIndex = String(currentDate.getMonth() + 1).padStart(2, '0');
+    const monthNames = [
+        'January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December'
+    ];
+    const month = monthNames[parseInt(monthIndex) - 1];
+
     return (
         <View style={styles.card}>
             <Text style={styles.balanceText}>Current Balance</Text>
             <Text style={styles.balanceAmount}>{balance}</Text>
 
-            <View style={styles.cashFlow}>
-                <View >
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 10 }}>
+                <View
+                    style={{
+                        flex: 1,
+                        borderBottomWidth: 1,
+                        borderBottomColor: colors.inactive,
+                        borderStyle: 'dashed',
+                    }}
+                />
 
-                        <AntDesign name="arrowup" size={20} color={colors.income} />
+                <Text style={{ fontSize: 16, color: colors.primaryText, marginHorizontal: 10 }}>
+                    {month}
+                </Text>
+
+                <View
+                    style={{
+                        flex: 1,
+                        borderBottomWidth: 1,
+                        borderBottomColor: colors.inactive,
+                        borderStyle: 'dashed',
+                    }}
+                />
+            </View>
+
+            <View style={styles.cashFlow}>
+                {/* Income Block */}
+                <View style={styles.cashFlowBlock}>
+                    <MaterialCommunityIcons name="arrow-up-bold-hexagon-outline" size={45} color={colors.income} />
+                    <View>
                         <Text style={styles.incomeText}>Income</Text>
+                        <Text style={styles.incomeAmount}>{income}</Text>
                     </View>
-                    <Text style={styles.incomeAmount}>{income}</Text>
+
                 </View>
 
-                <View style={[styles.alignEnd]}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <AntDesign name="arrowdown" size={20} color={colors.expense} />
+                {/* Expense Block */}
+                <View style={styles.cashFlowBlock}>
+                    <MaterialCommunityIcons name="arrow-down-bold-hexagon-outline" size={45} color={colors.expense} />
+                    <View>
                         <Text style={styles.expenseText}>Expense</Text>
+                        <Text style={styles.expenseAmount}>{expense}</Text>
                     </View>
-                    <Text style={styles.expenseAmount}>{expense}</Text>
+
                 </View>
             </View>
-        </View>
+
+        </View >
     );
 };
 
@@ -68,10 +106,12 @@ const styles = StyleSheet.create({
     cashFlow: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        paddingHorizontal: 30,
+        paddingHorizontal: 10,
     },
-    alignEnd: {
-        alignItems: 'flex-end',
+    cashFlowBlock: {
+        alignItems: 'center',
+        flexDirection: 'row',
+        gap: 10,
     },
     incomeText: {
         fontSize: 16,

@@ -8,6 +8,7 @@ import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import { getUser } from '@/services/userServices'
 import { getMonthlyData, getTransactions } from '@/services/transactionServices'
 import { useTransactionContext } from '@/hooks/transactionContext'
+import { useRouter } from 'expo-router'
 
 interface Transaction {
     _id: string;
@@ -30,9 +31,13 @@ const home = () => {
     const [transactions, setTransactions] = useState<Transaction[]>([]);
     const [income, setIncome] = useState(0);
     const [expense, setExpense] = useState(0);
+    const [userData, setUserData] = useState({
+        name: '',
+        email: '',
+    });
 
     const { triggerRefresh } = useTransactionContext()
-
+    const router = useRouter()
 
     const getAllTransactions = async () => {
         const res = await getTransactions()
@@ -50,32 +55,73 @@ const home = () => {
         setExpense(res.monthlyExpense)
     }
 
+    const getProfile = async () => {
+        try {
+            const res = await getUser()
+            setUserData({
+                name: res.name,
+                email: res.email,
+            })
+        }
+        catch (error) {
+            const err = error as Error;
+            console.log(err.message)
+        }
+    }
 
     useEffect(() => {
         getAllTransactions()
         getBalance()
         getMonthly()
+        getProfile()
     }, [])
 
     return (
-        <View style={{ flex: 1, alignItems: 'center', paddingTop: 20, backgroundColor: colors.background, paddingBottom: 40  }}>
-            <Card balance={balance} income={income} expense={expense} />
+        <View style={{ flex: 1, alignItems: 'center', paddingTop: 20, backgroundColor: colors.background, paddingBottom: 40 }}>
             <Text style={
                 {
                     textAlign: 'left',
-                    fontSize: 16,
+                    fontSize: 20,
                     fontWeight: 'bold',
                     width: '100%',
-                    borderBottomWidth: 1,
-                    borderBottomColor: colors.inactive,
-                    paddingBottom: 10,
-                    marginTop: 20,
                     paddingLeft: 20,
+                    marginBottom: 10,
                     color: colors.primaryText,
                 }
-            }>Recent Transactions</Text>
+            }>Hello, {userData.name}</Text>
+            <Card balance={balance} income={income} expense={expense} />
+            <View style={{
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                width: '100%',
+                marginTop: 20,
+                paddingHorizontal: 20,
+                paddingBottom: 20,
+                borderBottomWidth: 1,
+                borderBottomColor: colors.inactive,
+                alignItems: 'center',
+            }}>
+                <Text style={
+                    {
+                        textAlign: 'left',
+                        fontSize: 16,
+                        fontWeight: 'bold',
+                        color: colors.primaryText,
+                    }
+                }>Recent Transactions</Text>
+                <TouchableOpacity onPress={() => { router.push('/transactions') }}>
+                    <Text style={
+                        {
+                            textAlign: 'right',
+                            fontSize: 16,
+                            fontWeight: 'bold',
+                            color: colors.secondary,
+                        }
+                    }>View All</Text>
+                </TouchableOpacity>
+            </View>
             <FlatList
-                data={transactions}
+                data={transactions.slice(0, 7)}
                 keyExtractor={(item) => item._id}  // Unique key for each item in the list
                 renderItem={({ item }) => (
                     <Transactions title={item.title} date={item.date} amount={item.amount} category={item.category} />
