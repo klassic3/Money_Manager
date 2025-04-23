@@ -1,4 +1,4 @@
-import { CREATETRANSACTION, GETTRANSACTION, MONTHLYDATA, MONTHLYCATEGORIES, MONTHLYTREND } from "./api";
+import { CREATETRANSACTION, GETTRANSACTION, MONTHLYDATA, MONTHLYCATEGORIES, MONTHLYTREND, FILTEREDTRANSACTIONS } from "./api";
 import api from "./api";
 
 const createTransaction = async (transactionData) => {
@@ -16,6 +16,19 @@ const getTransactions = async () => {
         return response.data;
     } catch (error) {
         throw error.response.data;
+    }
+}
+
+const getFilteredTransactions = async (category, startDate, endDate) => {
+    try {
+        const response = await api.get(FILTEREDTRANSACTIONS,
+            {
+                params: { category: category.join(','), startDate, endDate }
+            }
+        );
+        return response.data;
+    } catch (error) {
+        throw error;
     }
 }
 
@@ -53,6 +66,7 @@ const getMonthlyTrends = async () => {
 export {
     createTransaction,
     getTransactions,
+    getFilteredTransactions,
     getMonthlyData,
     getMonthlyCategories,
     getMonthlyTrends,

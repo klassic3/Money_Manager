@@ -12,6 +12,7 @@ export const USER = `/user/user`;
 
 export const CREATETRANSACTION = `/transactions/create`;
 export const GETTRANSACTION = `/transactions/get`;
+export const FILTEREDTRANSACTIONS = '/transactions/filter';
 export const MONTHLYDATA = `/transactions/monthlyData`;
 export const MONTHLYCATEGORIES = `/transactions/monthlyCategories`;
 export const MONTHLYTREND = `/transactions/monthlyTrend`;

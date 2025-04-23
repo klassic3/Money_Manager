@@ -78,55 +78,30 @@ const home = () => {
     }, [refreshFlag])
 
     return (
-        <View style={{ flex: 1, alignItems: 'center', paddingTop: 20, backgroundColor: colors.background, paddingBottom: 40 }}>
-            <Text style={
-                {
-                    textAlign: 'left',
-                    fontSize: 20,
-                    fontWeight: 'bold',
-                    width: '100%',
-                    paddingLeft: 20,
-                    marginBottom: 10,
-                    color: colors.primaryText,
-                }
-            }>Hello, {userData.name}</Text>
+        <View style={styles.container}>
+            <Text style={styles.greeting}>Hello, {userData?.name}</Text>
+
             <Card balance={balance} income={income} expense={expense} />
-            <View style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                width: '100%',
-                marginTop: 20,
-                paddingHorizontal: 20,
-                paddingBottom: 20,
-                borderBottomWidth: 1,
-                borderBottomColor: colors.inactive,
-                alignItems: 'center',
-            }}>
-                <Text style={
-                    {
-                        textAlign: 'left',
-                        fontSize: 16,
-                        fontWeight: 'bold',
-                        color: colors.primaryText,
-                    }
-                }>Recent Transactions</Text>
-                <TouchableOpacity onPress={() => { router.push('/transactions') }}>
-                    <Text style={
-                        {
-                            textAlign: 'right',
-                            fontSize: 16,
-                            fontWeight: 'bold',
-                            color: colors.secondary,
-                        }
-                    }>View All</Text>
+
+            <View style={styles.transactionHeader}>
+                <Text style={styles.transactionTitle}>Recent Transactions</Text>
+                <TouchableOpacity onPress={() => router.push('/transactions')}>
+                    <Text style={styles.viewAll}>View All</Text>
                 </TouchableOpacity>
             </View>
+
             <FlatList
                 data={transactions.slice(0, 7)}
-                keyExtractor={(item) => item._id}  // Unique key for each item in the list
+                keyExtractor={(item) => item._id}
                 renderItem={({ item }) => (
-                    <Transactions title={item.title} date={item.date} amount={item.amount} category={item.category} />
+                    <Transactions
+                        title={item.title}
+                        date={item.date}
+                        amount={item.amount}
+                        category={item.category}
+                    />
                 )}
+                contentContainerStyle={{ paddingBottom: 40 }}
             />
         </View>
     )
@@ -135,4 +110,40 @@ const home = () => {
 export default home
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        alignItems: 'center',
+        paddingTop: 20,
+        backgroundColor: colors.background,
+    },
+    greeting: {
+        width: '100%',
+        textAlign: 'left',
+        fontSize: 20,
+        fontWeight: 'bold',
+        paddingLeft: 20,
+        marginBottom: 10,
+        color: colors.primaryText,
+    },
+    transactionHeader: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        width: '100%',
+        paddingHorizontal: 20,
+        marginTop: 20,
+        paddingBottom: 20,
+        borderBottomWidth: 1,
+        borderBottomColor: colors.inactive,
+    },
+    transactionTitle: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: colors.primaryText,
+    },
+    viewAll: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: colors.secondary,
+    },
 })
