@@ -74,7 +74,6 @@ const Piechart = () => {
         const year = currentDate.getFullYear().toString();
 
         const data = await getMonthlyCategories(month, year)
-        console.log(data)
         if (data.length === 0) {
             setNodata(true);
         }

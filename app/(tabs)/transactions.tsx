@@ -37,8 +37,8 @@ const transactions = () => {
         setTransactions(res)
     }
 
-    const handleFilter = async (selectedCategories: string[]) => {
-        const res = await getFilteredTransactions(selectedCategories)
+    const handleFilter = async (selectedCategories: string[], startDate:string, endDate:string) => {
+        const res = await getFilteredTransactions(selectedCategories, startDate, endDate)
         setTransactions(res.transactions)
     }
 
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
         borderBottomColor: colors.inactive
     },
     title: {
-        fontSize: 24,
+        fontSize: 20,
         fontWeight: 'bold',
         color: colors.primaryText,
         alignSelf: 'flex-start',

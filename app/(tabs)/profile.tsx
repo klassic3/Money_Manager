@@ -76,10 +76,13 @@ const styles = StyleSheet.create({
         borderRadius: 50,
     },
     title: {
-        fontSize: 24,
+        width: '100%',
+        textAlign: 'left',
+        fontSize: 20,
         fontWeight: 'bold',
-        marginBottom: 20,
-        color: '#000',
+        paddingLeft: 20,
+        marginBottom: 10,
+        color: colors.primaryText,
     },
     name: {
         fontSize: 18,

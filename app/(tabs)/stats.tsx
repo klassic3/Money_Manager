@@ -8,7 +8,7 @@ const stats = () => {
 
     return (
         <ScrollView contentContainerStyle={{ alignItems: 'center', paddingTop: 20, backgroundColor: colors.background, paddingBottom: 40 }}>
-            <Text>stats</Text>
+            <Text style={styles.title}>Analytics</Text>
             <Piechart />
             <Linegraph />
         </ScrollView>
@@ -17,4 +17,14 @@ const stats = () => {
 
 export default stats
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    title:{
+        width: '100%',
+        textAlign: 'left',
+        fontSize: 20,
+        fontWeight: 'bold',
+        paddingLeft: 20,
+        marginBottom: 10,
+        color: colors.primaryText,
+    },
+})
