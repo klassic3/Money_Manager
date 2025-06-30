@@ -4,7 +4,7 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
-const API_URL = 'http://192.168.1.71:5000/api/v1'; // Your Node.js API base URL
+const API_URL = 'http://192.168.1.71:5000/api/v1';
 
 export const SIGNUP = `/user/register`;
 export const LOGIN = `/user/login`;
@@ -12,6 +12,7 @@ export const CHANGEPASSWORD = `/user/changepassword`;
 export const USER = `/user/user`;
 
 export const CREATETRANSACTION = `/transactions/create`;
+export const DELETETRANSACTION = `/transactions/delete/:id`;
 export const GETTRANSACTION = `/transactions/get`;
 export const FILTEREDTRANSACTIONS = '/transactions/filter';
 export const MONTHLYDATA = `/transactions/monthlyData`;

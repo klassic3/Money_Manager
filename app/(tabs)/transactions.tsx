@@ -63,7 +63,7 @@ const transactions = () => {
                 data={transactions}
                 keyExtractor={(item) => item._id}  // Unique key for each item in the list
                 renderItem={({ item }) => (
-                    <Transactions title={item.title} date={item.date} amount={item.amount} category={item.category} />
+                    <Transactions _id={item._id} title={item.title} date={item.date} amount={item.amount} category={item.category} />
                 )}
             />
         </View>

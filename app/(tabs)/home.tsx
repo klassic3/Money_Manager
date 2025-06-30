@@ -95,6 +95,7 @@ const home = () => {
                 keyExtractor={(item) => item._id}
                 renderItem={({ item }) => (
                     <Transactions
+                        _id={item._id}
                         title={item.title}
                         date={item.date}
                         amount={item.amount}

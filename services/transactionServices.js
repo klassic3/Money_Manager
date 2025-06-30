@@ -1,4 +1,4 @@
-import { CREATETRANSACTION, GETTRANSACTION, MONTHLYDATA, MONTHLYCATEGORIES, MONTHLYTREND, FILTEREDTRANSACTIONS } from "./api";
+import { CREATETRANSACTION, GETTRANSACTION, MONTHLYDATA, MONTHLYCATEGORIES, MONTHLYTREND, FILTEREDTRANSACTIONS, DELETETRANSACTION } from "./api";
 import api from "./api";
 
 const createTransaction = async (transactionData) => {
@@ -7,6 +7,16 @@ const createTransaction = async (transactionData) => {
         return response.data;
     } catch (error) {
         throw error;
+    }
+}
+
+const deleteTransaction = async (transactionId) => {
+    try {
+        const response = await api.delete(DELETETRANSACTION.replace(':id', transactionId));
+        return response.data;
+    }
+    catch (error) {
+        throw error.response.data;
     }
 }
 
@@ -65,6 +75,7 @@ const getMonthlyTrends = async () => {
 
 export {
     createTransaction,
+    deleteTransaction,
     getTransactions,
     getFilteredTransactions,
     getMonthlyData,

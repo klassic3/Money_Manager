@@ -1,12 +1,18 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, Touchable, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { colors } from '@/constants/theme';
 
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { deleteTransaction } from '@/services/transactionServices';
+import { useTransactionContext } from '@/hooks/transactionContext';
+
+
+import { useToast } from 'react-native-toast-notifications';
 
 
 type TransactionProps = {
+    _id: string;
     title: string;
     amount: number;
     category: string;
@@ -41,13 +47,38 @@ const getCategoryIcon = (category: string) => {
 };
 
 
-const Transactions = ({ title, amount, category, date }: TransactionProps) => {
+const Transactions = ({ _id, title, amount, category, date }: TransactionProps) => {
+
+    const toast = useToast();
+    const { triggerRefresh } = useTransactionContext()
+
     const isExpense = amount < 0;
     const formattedDate = new Date(date).toLocaleDateString('en-US', {
         year: 'numeric',
         month: 'long',
         day: 'numeric',
     });
+
+    const handleDeleteTransaction = async (id: string) => {
+        try {
+            const response = await deleteTransaction(id);
+            toast.show(response.message, {
+                type: 'success',
+                placement: 'top',
+                duration: 2000,
+                animationType: 'slide-in',
+            });
+            triggerRefresh();
+        } catch (error) {
+            const err = error as Error;
+            toast.show(err.message, {
+                type: 'danger',
+                placement: 'top',
+                duration: 2000,
+                animationType: 'slide-in',
+            });
+        }
+    };
 
     return (
         <View style={styles.transaction}>
@@ -58,9 +89,14 @@ const Transactions = ({ title, amount, category, date }: TransactionProps) => {
                     <Text style={styles.date}>{formattedDate}</Text>
                 </View>
             </View>
-            <Text style={[styles.amount, { color: isExpense ? colors.expense : colors.income }]}>
-                {isExpense ? `-$${Math.abs(amount).toFixed(2)}` : `+$${amount.toFixed(2)}`}
-            </Text>
+            <View>
+                <Text style={[styles.amount, { color: isExpense ? colors.expense : colors.income }]}>
+                    {isExpense ? `-$${Math.abs(amount).toFixed(2)}` : `+$${amount.toFixed(2)}`}
+                </Text>
+                <TouchableOpacity style={{ alignSelf: 'flex-end' }} onPress={() => handleDeleteTransaction(_id)}>
+                    <MaterialCommunityIcons name="trash-can-outline" size={20} color={colors.secondary} />
+                </TouchableOpacity>
+            </View>
         </View>
     )
 }
