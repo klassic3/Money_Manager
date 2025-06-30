@@ -1,9 +1,11 @@
-import { StyleSheet, Text, Image, ScrollView, View, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, Image, View, TouchableOpacity } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { colors } from '@/constants/theme'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useRouter } from 'expo-router'
 import { getUser } from '@/services/userServices'
+
+import Password from '@/components/password'
 
 const profile = () => {
 
@@ -12,6 +14,8 @@ const profile = () => {
         name: '',
         email: '',
     });
+
+    const [passwordVisible, setPasswordVisible] = useState(false);
 
     useEffect(() => {
         const getProfile = async () => {
@@ -31,27 +35,25 @@ const profile = () => {
     }, [])
 
     return (
-        <ScrollView contentContainerStyle={{ flexGrow: 1, padding: 20, backgroundColor: colors.background }}>
-            <View style={{ alignItems: 'center', marginBottom: 20 }}>
-                <Text style={styles.title}>Profile</Text>
-                <Image
-                    resizeMode="contain"
-                    source={require('../../assets/images/Profile.png')}
-                    style={styles.logo}
-                />
-                <Text style={styles.name}>{userData.name}</Text>
-                <Text style={styles.email}>{userData.email}</Text>
-            </View>
+        <View style={{ flex: 1, alignItems: 'center', paddingTop: 20, backgroundColor: colors.background, paddingBottom: 40 }}>
+            <Text style={styles.title}>Profile</Text>
+            <Image
+                resizeMode="contain"
+                source={require('../../assets/images/Profile.png')}
+                style={styles.logo}
+            />
+            <Text style={styles.name}>{userData.name}</Text>
+            <Text style={styles.email}>{userData.email}</Text>
 
             <View style={styles.section}>
                 <TouchableOpacity style={styles.item}>
-                    <Text style={styles.itemText}>Edit Profile</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.item}>
-                    <Text style={styles.itemText}>Settings</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.item}>
                     <Text style={styles.itemText}>Privacy Policy</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.item}>
+                    <Text style={styles.itemText}>Theme</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.item} onPress={() => setPasswordVisible(true)}>
+                    <Text style={styles.itemText}>Change Password</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={styles.item}
@@ -63,7 +65,12 @@ const profile = () => {
                     <Text style={styles.itemText}>Log Out</Text>
                 </TouchableOpacity>
             </View>
-        </ScrollView>
+
+            <Password
+                    visible={passwordVisible}
+                    onClose={() => setPasswordVisible(false)}
+                />
+        </View>
     );
 };
 
@@ -95,9 +102,14 @@ const styles = StyleSheet.create({
         color: '#666',
     },
     section: {
+        width: '100%',
+        marginTop: 20,
         marginBottom: 24,
+        borderTopWidth: 1,
+        borderColor: colors.inactive,
     },
     item: {
+        paddingLeft: 20,
         paddingVertical: 12,
         borderBottomWidth: 1,
         borderColor: colors.inactive,

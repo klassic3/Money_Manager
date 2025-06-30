@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import api from "./api";
 
-import { SIGNUP, LOGIN, USER } from "./api";
+import { SIGNUP, LOGIN, USER , CHANGEPASSWORD } from "./api";
 
 const registerUser = async (userData) => {
     try {
@@ -18,7 +18,7 @@ const loginUser = async (userData) => {
 
         const token = response.data.token;
 
-        AsyncStorage.setItem("authToken", token); // Store the token in AsyncStorage
+        AsyncStorage.setItem("authToken", token);
 
         return response.data;
 
@@ -27,17 +27,27 @@ const loginUser = async (userData) => {
     }
 }
 
+const changePassword = async (passwordData) => {
+    try {
+        const response = await api.post(CHANGEPASSWORD, passwordData);
+        return response.data;
+    } catch (error) {
+        throw error.response.data; 
+    }
+}
+
 const getUser = async () => {
     try {
         const response = await api.get(USER);
         return response.data;
     } catch (error) {
-        throw error.response.data; // This will throw the error for further handling
+        throw error.response.data;
     }
 }
 
 export {
     registerUser,
     loginUser,
+    changePassword,
     getUser,
 }

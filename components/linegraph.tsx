@@ -11,7 +11,7 @@ const Linegraph = () => {
         labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
         datasets: [
             {
-                data: [20, 45, 28, 80, 99, 43],
+                data: [0, 0, 0, 0, 0, 0],
                 color: (opacity = 1) => colors.secondary,
                 strokeWidth: 2,
             },

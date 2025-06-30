@@ -80,9 +80,9 @@ export default function TabLayout() {
                 />
                 <TouchableOpacity style={{
                     position: 'absolute',
-                    bottom: 0, // Place it just above the tab bar
-                    left: '50%', // Center it horizontally
-                    marginLeft: -25, // Half of the FAB size to center it perfectly
+                    bottom: 0, 
+                    left: '50%', 
+                    marginLeft: -25, 
                     justifyContent: 'center',
                     alignItems: 'center',
                     elevation: 5,
