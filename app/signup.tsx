@@ -1,7 +1,7 @@
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { StyleSheet, Text, TextInput, TouchableOpacity, View, Image } from 'react-native'
 import React, { useState } from 'react'
 import { colors } from '@/constants/theme';
-import { Link, Redirect, useRouter } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
 
 import { loginUser, registerUser } from '../services/userServices'; // Adjust the import according to your project structure
 import { useToast } from 'react-native-toast-notifications';
@@ -17,10 +17,10 @@ const signup = () => {
     const [confirmPassword, setConfirmPassword] = useState('');
 
 
-    const handleSignUp = async  () => {
+    const handleSignUp = async () => {
 
         if (!name || !email || !password || !confirmPassword) {
-            toast.show('Please fill all fields!',{
+            toast.show('Please fill all fields!', {
                 type: 'danger',
                 placement: 'top',
                 duration: 2000,
@@ -30,7 +30,7 @@ const signup = () => {
         }
 
         if (password !== confirmPassword) {
-            toast.show('Passwords do not match!',{
+            toast.show('Passwords do not match!', {
                 type: 'danger',
                 placement: 'top',
                 duration: 2000,
@@ -62,7 +62,7 @@ const signup = () => {
         }
         catch (error) {
             const err = error as Error;
-            toast.show(err.message,{
+            toast.show(err.message, {
                 type: 'danger',
                 placement: 'top',
                 duration: 2000,
@@ -73,46 +73,50 @@ const signup = () => {
 
     return (
         <View style={styles.background}>
+            <Image
+                resizeMode='contain'
+                source={require('../assets/images/signin.jpg')}
+                style={styles.logo}
+            />
+            <Text style={styles.title}>Sign Up</Text>
 
-                <Text style={styles.title}>Sign Up</Text>
+            <TextInput
+                style={styles.input}
+                placeholder="Full Name"
+                value={name}
+                onChangeText={setName}
+            />
 
-                <TextInput
-                    style={styles.input}
-                    placeholder="Full Name"
-                    value={name}
-                    onChangeText={setName}
-                />
+            <TextInput
+                style={styles.input}
+                placeholder="Email Address"
+                keyboardType="email-address"
+                autoCapitalize="none"
+                value={email}
+                onChangeText={setEmail}
+            />
 
-                <TextInput
-                    style={styles.input}
-                    placeholder="Email Address"
-                    keyboardType="email-address"
-                    autoCapitalize="none"
-                    value={email}
-                    onChangeText={setEmail}
-                />
+            <TextInput
+                style={styles.input}
+                placeholder="Password"
+                secureTextEntry
+                value={password}
+                onChangeText={setPassword}
+            />
 
-                <TextInput
-                    style={styles.input}
-                    placeholder="Password"
-                    secureTextEntry
-                    value={password}
-                    onChangeText={setPassword}
-                />
+            <TextInput
+                style={styles.input}
+                placeholder="Confirm Password"
+                secureTextEntry
+                value={confirmPassword}
+                onChangeText={setConfirmPassword}
+            />
 
-                <TextInput
-                    style={styles.input}
-                    placeholder="Confirm Password"
-                    secureTextEntry
-                    value={confirmPassword}
-                    onChangeText={setConfirmPassword}
-                />
+            <TouchableOpacity style={styles.button} onPress={handleSignUp}>
+                <Text style={styles.buttonText}>Create Account</Text>
+            </TouchableOpacity>
 
-                <TouchableOpacity style={styles.button} onPress={handleSignUp}>
-                    <Text style={styles.buttonText}>Create Account</Text>
-                </TouchableOpacity>
-
-            <Text>Already have an account? <Link href="/login" style={{ color: colors.secondary }}>Log In</Link></Text> 
+            <Text>Already have an account? <Link href="/login" style={{ color: colors.secondary }}>Log In</Link></Text>
         </View>
     )
 }
@@ -136,6 +140,13 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.1,
         shadowRadius: 8,
         elevation: 4,
+    },
+    logo: {
+        width: 200,
+        height: 200,
+        borderRadius: 50,
+        alignSelf: 'center',
+        marginBottom: 20,
     },
     title: {
         fontSize: 32,

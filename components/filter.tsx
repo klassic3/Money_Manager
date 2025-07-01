@@ -52,7 +52,7 @@ const Filter = ({ visible, onClose, filter }: FilterProps) => {
             setSelectedType([]),
             setEndDate(new Date().toISOString()),
             setStartDate(new Date('1900-01-01').toISOString())
-}
+    }
 
     const handleCategory = (item: string) => {
 
@@ -216,10 +216,10 @@ const Filter = ({ visible, onClose, filter }: FilterProps) => {
                             />
                         )}
                     </View>
-                    <TouchableOpacity style={[styles.apply,{backgroundColor: colors.secondary}]} onPress={handleApplyFilter}>
-                        <Text style={[styles.optionTitle, {color:'#fff'}]} >Apply</Text>
+                    <TouchableOpacity style={[styles.apply, { backgroundColor: colors.secondary }]} onPress={handleApplyFilter}>
+                        <Text style={[styles.optionTitle, { color: '#fff' }]} >Apply</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={[styles.apply,{borderColor: colors.secondary, borderWidth:1}]}  onPress={onClose}>
+                    <TouchableOpacity style={[styles.apply, { borderColor: colors.secondary, borderWidth: 1 }]} onPress={onClose}>
                         <Text style={styles.optionTitle} >Cancel</Text>
                     </TouchableOpacity>
                 </View>
@@ -238,9 +238,11 @@ const styles = StyleSheet.create({
         marginBottom: 40,
     },
     container: {
-        width: '55%',
+        width: '60%',
         height: '100%',
         backgroundColor: '#f0f0f0',
+        borderCurve: 'circular',
+        borderRadius: 10,
         padding: 20,
         shadowColor: '#000',
         shadowOffset: { width: 2, height: 0 },
@@ -284,7 +286,7 @@ const styles = StyleSheet.create({
     optionItemSelected: {
         backgroundColor: '#d0e8ff',
     },
-    apply:{
+    apply: {
         padding: 5,
         borderRadius: 10,
         alignItems: 'center',

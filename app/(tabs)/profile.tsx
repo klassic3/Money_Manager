@@ -6,6 +6,8 @@ import { useRouter } from 'expo-router'
 import { getUser } from '@/services/userServices'
 
 import Password from '@/components/password'
+import PrivacyPlolicy from '@/components/privacyPlolicy'
+import Theme from '@/components/theme'
 
 const profile = () => {
 
@@ -16,6 +18,8 @@ const profile = () => {
     });
 
     const [passwordVisible, setPasswordVisible] = useState(false);
+    const [policyVisible, setPolicyVisible] = useState(false);
+    const [themeVisible, setThemeVisible] = useState(false);
 
     useEffect(() => {
         const getProfile = async () => {
@@ -46,10 +50,10 @@ const profile = () => {
             <Text style={styles.email}>{userData.email}</Text>
 
             <View style={styles.section}>
-                <TouchableOpacity style={styles.item}>
+                <TouchableOpacity style={styles.item} onPress={() => setPolicyVisible(true)}>
                     <Text style={styles.itemText}>Privacy Policy</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.item}>
+                <TouchableOpacity style={styles.item} onPress={() => setThemeVisible(true)}>
                     <Text style={styles.itemText}>Theme</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.item} onPress={() => setPasswordVisible(true)}>
@@ -66,10 +70,20 @@ const profile = () => {
                 </TouchableOpacity>
             </View>
 
+            <PrivacyPlolicy
+                visible={policyVisible}
+                onClose={() => setPolicyVisible(false)}
+            />
+
+            <Theme
+                visible={themeVisible}
+                onClose={() => setThemeVisible(false)}
+            />
+
             <Password
-                    visible={passwordVisible}
-                    onClose={() => setPasswordVisible(false)}
-                />
+                visible={passwordVisible}
+                onClose={() => setPasswordVisible(false)}
+            />
         </View>
     );
 };
