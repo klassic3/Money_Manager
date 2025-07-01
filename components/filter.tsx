@@ -134,7 +134,7 @@ const Filter = ({ visible, onClose, filter }: FilterProps) => {
                         </TouchableOpacity>
                     </View>
                     <View style={styles.optionGroup}>
-                        <TouchableOpacity onPress={() => setCategoryOpen(prev => !prev)}>
+                        <TouchableOpacity style={styles.option} onPress={() => setCategoryOpen(prev => !prev)}>
                             <Text style={styles.optionTitle}>Category</Text>
                         </TouchableOpacity>
 
@@ -171,7 +171,7 @@ const Filter = ({ visible, onClose, filter }: FilterProps) => {
                                 }}
                             />
                         }
-                        <TouchableOpacity onPress={() => setStartDateOpen(prev => !prev)}>
+                        <TouchableOpacity style={styles.option} onPress={() => setStartDateOpen(prev => !prev)}>
                             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                                 <Text style={styles.optionTitle}>Start Date</Text>
                                 <Text>{new Date(startDate).toLocaleDateString()}</Text>
@@ -193,7 +193,7 @@ const Filter = ({ visible, onClose, filter }: FilterProps) => {
 
                             />
                         )}
-                        <TouchableOpacity onPress={() => setEndDateOpen(prev => !prev)}>
+                        <TouchableOpacity style={styles.option} onPress={() => setEndDateOpen(prev => !prev)}>
                             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                                 <Text style={styles.optionTitle}>End Date</Text>
                                 <Text>{new Date(endDate).toLocaleDateString()}</Text>
@@ -216,10 +216,10 @@ const Filter = ({ visible, onClose, filter }: FilterProps) => {
                             />
                         )}
                     </View>
-                    <TouchableOpacity onPress={handleApplyFilter}>
-                        <Text style={styles.optionTitle} >Apply</Text>
+                    <TouchableOpacity style={[styles.apply,{backgroundColor: colors.secondary}]} onPress={handleApplyFilter}>
+                        <Text style={[styles.optionTitle, {color:'#fff'}]} >Apply</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={onClose}>
+                    <TouchableOpacity style={[styles.apply,{borderColor: colors.secondary, borderWidth:1}]}  onPress={onClose}>
                         <Text style={styles.optionTitle} >Cancel</Text>
                     </TouchableOpacity>
                 </View>
@@ -240,7 +240,7 @@ const styles = StyleSheet.create({
     container: {
         width: '55%',
         height: '100%',
-        backgroundColor: '#fff',
+        backgroundColor: '#f0f0f0',
         padding: 20,
         shadowColor: '#000',
         shadowOffset: { width: 2, height: 0 },
@@ -251,10 +251,16 @@ const styles = StyleSheet.create({
     optionGroup: {
         marginVertical: 10,
     },
+    option: {
+        marginVertical: 7.5,
+        padding: 7.5,
+        backgroundColor: '#ffffff',
+        borderCurve: 'circular',
+        borderRadius: 10,
+    },
     optionTitle: {
         fontSize: 14,
         fontWeight: '600',
-        marginBottom: 8,
         color: colors.primaryText,
     },
     optionText: {
@@ -262,7 +268,7 @@ const styles = StyleSheet.create({
         color: colors.primaryText,
     },
     optionContainer: {
-        backgroundColor: '#f0f0f0',
+        backgroundColor: '#ffffff',
         borderCurve: 'circular',
         borderRadius: 10
     },
@@ -275,8 +281,13 @@ const styles = StyleSheet.create({
         borderRadius: 6,
         marginBottom: 8,
     },
-
     optionItemSelected: {
         backgroundColor: '#d0e8ff',
     },
+    apply:{
+        padding: 5,
+        borderRadius: 10,
+        alignItems: 'center',
+        marginVertical: 5,
+    }
 })
