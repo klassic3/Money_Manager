@@ -4,7 +4,7 @@
     "slug": "Money_Manager",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/GGEZ5.png",
+    "icon": "./assets/images/MM.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -13,21 +13,22 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/GGEZ5.png",
+        "foregroundImage": "./assets/images/MM.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.klassic3.Money_Manager"
     },
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/GGEZ5.png"
+      "favicon": "./assets/images/MM.png"
     },
     "plugins": [
       "expo-router",
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/GGEZ5.png",
+          "image": "./assets/images/MM.png",
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
@@ -36,6 +37,15 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "61436f59-ab81-47a1-86c8-b05175a3d15a"
+      }
+    },
+    "owner": "klassic3"
   }
 }

@@ -4,7 +4,7 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
-const API_URL = 'http://192.168.1.71:5000/api/v1';
+const API_URL = 'https://reactnative-ag4r.onrender.com/api/v1';
 
 export const SIGNUP = `/user/register`;
 export const LOGIN = `/user/login`;
