@@ -1,50 +1,49 @@
-# Welcome to my Expo app 👋
+## 💵 Money Manager 💰
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+An expense tracker made using the ReactNative Expo.
 
-## Get started
+<br>
 
-1. Install dependencies
+## 📖 Table of Contents
+- About
+- Features
+- Installation
+- License
 
-   ```bash
-   npm install
-   ```
+<br>
 
-2. Start the app
+## 📌 About 
 
-   ```bash
-    npx expo start
-   ```
+**Money Manager* is an expense tracker that allows you to track your incomes and expenses, get monthly statistics and manage them accordingly. Designed using the ReactNative (Expo), the app is meant as a learning project for getting familiar with the technology.
 
-In the output, you'll find options to open the app in a
+<br>
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## 🧾 Features
+- Basic login and register functionality.
+- Add income/expense and filter through them based on date and type.
+- Statistics of current month and current balance.
+- Monthly statistics on expenses.
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
 
-## Get a fresh project
+<br>
 
-When you're ready, run:
+## 🚀 Installation
 
-```bash
-npm run reset-project
-```
+Option 1: Download the apk <br>
+👉 [**Download**]([https://ghostwritergame.netlify.app/](https://expo.dev/accounts/klassic3/projects/Money_Manager/builds/4e2581e0-3cd2-4f18-8552-cb48f81a2917))
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+Option 2: Run in localhost
+- Check the backend [here](https://github.com/klassic3/ReactNative)
+- Clone this repo
+- Replace API_URL within services/api.js
+  * const API_URL = '*your backend api*';
+- Run the app
+  ``` bash
+  npm install
+  npm run android
+  ```
 
-## Learn more
+<br>
 
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+## 📄 License
+MIT ©  [**Chris Maharjan**](www.linkedin.com/in/chris-maharjan-4b2580283)
