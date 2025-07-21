@@ -36,7 +36,9 @@ Option 2: Run in localhost
 - Check the backend [here](https://github.com/klassic3/ReactNative)
 - Clone this repo
 - Replace API_URL within services/api.js
-  * const API_URL = '*your backend api*';
+  ```
+  const API_URL = '<your backend api>';
+  ```
 - Run the app
   ``` bash
   npm install
